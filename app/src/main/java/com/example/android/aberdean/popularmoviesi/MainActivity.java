@@ -24,14 +24,25 @@
 
 package com.example.android.aberdean.popularmoviesi;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private TextView mMoviePostersTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mMoviePostersTextView = (TextView) findViewById(R.id.tv_movie_posters);
+        String[] moviePosters = new String[]{"movie1", "movie2", "movie3", "movie4",
+                "movie5", "movie6", "movie7", "movie8"
+                                                };
+        for (String movie : moviePosters) {
+            mMoviePostersTextView.append(movie + "  ");
+        }
     }
 }

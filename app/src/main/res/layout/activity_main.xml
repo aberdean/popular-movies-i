@@ -23,19 +23,21 @@
   ~ SOFTWARE.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.android.aberdean.popularmoviesi.MainActivity">
+    android:background="#80ac4fc4">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--This TextView holds the poster of one movie-->
+        <TextView
+            android:id="@+id/tv_movie_posters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp" />
+
+    </ScrollView>
+</GridLayout>
