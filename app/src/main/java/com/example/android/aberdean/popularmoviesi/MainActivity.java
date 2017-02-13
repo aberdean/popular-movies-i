@@ -24,25 +24,105 @@
 
 package com.example.android.aberdean.popularmoviesi;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.GridLayout;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.android.aberdean.popularmoviesi.utilities.MovieJsonUtils;
+import com.example.android.aberdean.popularmoviesi.utilities.NetworkUtils;
+import com.squareup.picasso.Picasso;
+
+import java.net.URL;
+import java.util.ArrayList;
+
+/*TODO: Add credits page with TMDb attribution
+ * https://www.themoviedb.org/about/logos-attribution) **/
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mMoviePostersTextView;
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    private RecyclerView mRecyclerView;
+    private MovieAdapter mMovieAdapter;
+
+    private ArrayList<String> posterUris;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mMoviePostersTextView = (TextView) findViewById(R.id.tv_movie_posters);
-        String[] moviePosters = new String[]{"movie1", "movie2", "movie3", "movie4",
-                "movie5", "movie6", "movie7", "movie8"
-                                                };
-        for (String movie : moviePosters) {
-            mMoviePostersTextView.append(movie + "  ");
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_posters);
+
+        GridLayoutManager layoutManager =
+                new GridLayoutManager(this, 2);
+
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+
+        mMovieAdapter = new MovieAdapter(getBaseContext());
+        mRecyclerView.setAdapter(mMovieAdapter);
+
+        //mMoviePostersImageView = (ImageView) findViewById(R.id.iv_movie_poster);
+        fetchPosters();
+
+    }
+
+    private void fetchPosters() {
+        new MovieQueryTask().execute("popularity.desc");
+    }
+
+    public class MovieQueryTask extends AsyncTask<String, String[], String[]> {
+
+        @Override
+        protected String[] doInBackground(String... params) {
+            String sortOrder = params[0];
+            URL movieRequestUrl = NetworkUtils.buildUrl(sortOrder);
+            try {
+                String jsonMovieResponse = NetworkUtils
+                        .getResponseFromHttpUrl(movieRequestUrl);
+
+                String[][] jsonMovieData = MovieJsonUtils
+                        .getMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
+
+                return jsonMovieData[0];
+
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String[] posterData) {
+            if(posterData != null) {
+                posterUris = new ArrayList<>(posterData.length);
+                for (String posterUri : posterData) {
+                    final String basePosterUri = "https://image.tmdb.org/t/p/w500";
+                    posterUris.add(basePosterUri + posterUri);
+                }
+                mMovieAdapter.setPosterData(posterUris);
+                //loadPosters(posterUris);
+            }
         }
     }
+
+    /*private void loadPosters(ArrayList<String> posterUris) {
+        for (String posterUri : posterUris) {
+            Picasso.with(this)
+                    .load(posterUri)
+                    .into(mMoviePostersImageView);
+        }
+    }*/
+
 }
