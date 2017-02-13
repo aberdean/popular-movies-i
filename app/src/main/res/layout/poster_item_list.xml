@@ -23,42 +23,19 @@
   ~ SOFTWARE.
   -->
 
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content">
 
-    &lt;!&ndash;This ImageView holds the poster of one movie&ndash;&gt;
     <ImageView
         android:id="@+id/iv_movie_poster"
-        android:layout_width="200dp"
-        android:layout_height="240dp"
-        android:fitsSystemWindows="true"
-        android:scaleType="centerCrop" />
-
-</LinearLayout>-->
-
-<!--<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gv_gridview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:columnWidth="200dp"
-    android:numColumns="auto_fit"
-    android:verticalSpacing="10dp"
-    android:horizontalSpacing="10dp"
-    android:stretchMode="columnWidth"
-    android:gravity="center" />-->
-
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#000000"
-    android:alignmentMode="alignMargins">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_posters"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+        <!--android:layout_margin="@dimen/activity_horizontal_margin"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:fitsSystemWindows="true"-->
 
-</GridLayout>
+
+</LinearLayout>
