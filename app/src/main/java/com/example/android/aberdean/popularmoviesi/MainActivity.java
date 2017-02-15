@@ -28,22 +28,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.GridLayout;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.android.aberdean.popularmoviesi.utilities.MovieJsonUtils;
 import com.example.android.aberdean.popularmoviesi.utilities.NetworkUtils;
-import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 import java.util.ArrayList;
+
 
 /*TODO: Add credits page with TMDb attribution
  * https://www.themoviedb.org/about/logos-attribution) **/
@@ -56,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter mMovieAdapter;
 
     private ArrayList<String> posterUris;
+    private String sortBy = "popularity.desc";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        mMovieAdapter = new MovieAdapter(getBaseContext());
+        mMovieAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mMovieAdapter);
 
         //mMoviePostersImageView = (ImageView) findViewById(R.id.iv_movie_poster);
@@ -79,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchPosters() {
-        new MovieQueryTask().execute("popularity.desc");
+        new MovieQueryTask().execute(sortBy);
     }
 
     public class MovieQueryTask extends AsyncTask<String, String[], String[]> {
@@ -114,6 +110,29 @@ public class MainActivity extends AppCompatActivity {
                 mMovieAdapter.setPosterData(posterUris);
                 //loadPosters(posterUris);
             }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sorting_selector, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sort_by_top_rated:
+                sortBy = "vote_average.desc";
+                fetchPosters();
+                return true;
+            case R.id.sort_by_most_popular:
+                sortBy = "popularity.desc";
+                fetchPosters();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

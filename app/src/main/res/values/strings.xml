@@ -23,5 +23,7 @@
   -->
 
 <resources>
-    <string name="app_name">PopMovies I</string>
+    <string name="app_name">PopularMovies</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="most_popular">Most Popular</string>
 </resources>
