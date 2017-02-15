@@ -78,11 +78,8 @@ public class MovieAdapter
 
     @Override
     public int getItemCount() {
-        if (mPosterData != null) {
-            return mPosterData.size();
-        } else {
-            return 0;
-        }
+        if (mPosterData == null) return 0;
+        return mPosterData.size();
     }
 
     public void setPosterData (ArrayList posterData) {

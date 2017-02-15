@@ -72,7 +72,6 @@ public final class NetworkUtils {
         }
 
         Log.v(TAG, "Built URI " + url);
-
         return url;
     }
 
