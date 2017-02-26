@@ -55,6 +55,8 @@ public final class MovieJsonUtils {
 
         /* Path to the poster image for the movie */
         final String MJ_POSTER = "poster_path";
+        /* Path to backdrop image for the movie */
+        final String MJ_BACKDROP = "backdrop_path";
         /* Movie description */
         final String MJ_OVERVIEW = "overview";
         final String MJ_RELEASE_DATE = "release_date";
@@ -66,6 +68,7 @@ public final class MovieJsonUtils {
 
         /* String arrays holding each movie's data */
         String[] parsedPosterUri;
+        String[] parsedBackdropUri;
         String[] parsedDescription;
         String[] parsedReleaseDate;
         String[] parsedTitle;
@@ -90,6 +93,7 @@ public final class MovieJsonUtils {
         JSONArray movieArray = movieJson.getJSONArray(MJ_RESULTS);
 
         parsedPosterUri = new String[movieArray.length()];
+        parsedBackdropUri = new String[movieArray.length()];
         parsedDescription = new String[movieArray.length()];
         parsedReleaseDate = new String[movieArray.length()];
         parsedTitle = new String[movieArray.length()];
@@ -98,6 +102,7 @@ public final class MovieJsonUtils {
         for (int i = 0; i < movieArray.length(); i++) {
             /* Values to be collected */
             String posterPath;
+            String backdropPath;
             String description;
             String releaseDate;
             String title;
@@ -107,12 +112,14 @@ public final class MovieJsonUtils {
             JSONObject movieData = movieArray.getJSONObject(i);
 
             posterPath = movieData.getString(MJ_POSTER);
+            backdropPath = movieData.getString(MJ_BACKDROP);
             description = movieData.getString(MJ_OVERVIEW);
             releaseDate = movieData.getString(MJ_RELEASE_DATE);
             title = movieData.getString(MJ_ORIGINAL_TITLE);
             rating = movieData.getString(MJ_VOTE_AVERAGE);
 
             parsedPosterUri[i] = posterPath;
+            parsedBackdropUri[i] = backdropPath;
             parsedDescription[i] = description;
             parsedReleaseDate[i] = releaseDate;
             parsedTitle[i] = title;
@@ -120,8 +127,8 @@ public final class MovieJsonUtils {
 
         }
 
-        String[][] parsedMovieData = {parsedPosterUri, parsedDescription, parsedReleaseDate,
-                parsedTitle, parsedRating};
+        String[][] parsedMovieData = {parsedPosterUri, parsedBackdropUri,
+                parsedDescription, parsedReleaseDate, parsedTitle, parsedRating};
 
         return parsedMovieData;
     }

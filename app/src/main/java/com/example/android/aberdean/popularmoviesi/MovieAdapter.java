@@ -26,9 +26,9 @@ package com.example.android.aberdean.popularmoviesi;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -43,17 +43,32 @@ public class MovieAdapter
     private ArrayList mPosterData;
     private Context context;
 
-    public MovieAdapter(Context context) {
-        this.context = context;
+    private final MovieAdapterOnClickHandler mClickHandler;
 
+    public interface MovieAdapterOnClickHandler {
+        void onClick(int adapterPosition);
     }
 
-    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder {
+    public MovieAdapter(MovieAdapterOnClickHandler clickHandler) {
+        mClickHandler = clickHandler;
+    }
+
+    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder
+            implements OnClickListener {
+
         public final ImageView mPosterImageView;
 
         public MovieAdapterViewHolder (View view) {
             super(view);
             mPosterImageView = (ImageView) view.findViewById(R.id.iv_movie_poster);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            mClickHandler.onClick(adapterPosition);
+
         }
     }
 
@@ -71,6 +86,7 @@ public class MovieAdapter
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder holder, int position) {
         String posterUrl = mPosterData.get(position).toString();
+        this.context = holder.mPosterImageView.getContext();
         Picasso.with(context)
                 .load(posterUrl)
                 .into(holder.mPosterImageView);

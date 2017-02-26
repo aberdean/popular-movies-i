@@ -24,6 +24,8 @@
 
 package com.example.android.aberdean.popularmoviesi;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,13 +45,15 @@ import java.util.ArrayList;
 /*TODO: Add credits page with TMDb attribution
  * https://www.themoviedb.org/about/logos-attribution) **/
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements MovieAdapter.MovieAdapterOnClickHandler {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
 
+    private String[][] jsonMovieData;
     private ArrayList<String> posterUris;
     private String sortBy = "popularity.desc";
 
@@ -69,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         mMovieAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mMovieAdapter);
 
-        //mMoviePostersImageView = (ImageView) findViewById(R.id.iv_movie_poster);
         fetchPosters();
 
     }
@@ -78,20 +81,36 @@ public class MainActivity extends AppCompatActivity {
         new MovieQueryTask().execute(sortBy);
     }
 
-    public class MovieQueryTask extends AsyncTask<String, String[], String[]> {
+    public void onClick(int moviePosition) {
+        Class destinationClass = MovieDetails.class;
+        Intent intentToStartMovieDetails = new Intent(this, destinationClass);
+        ArrayList movieDetails = getDetails(moviePosition);
+        intentToStartMovieDetails.putExtra("movieDetails", movieDetails);
+        startActivity(intentToStartMovieDetails);
+    }
+
+    private ArrayList getDetails(int position) {
+        ArrayList<String> chosenMovie = new ArrayList(jsonMovieData.length);
+        for (String[] movies : jsonMovieData) {
+            chosenMovie.add(movies[position]);
+        }
+        return chosenMovie;
+    }
+
+    public class MovieQueryTask extends AsyncTask<String, String[], String[][]> {
 
         @Override
-        protected String[] doInBackground(String... params) {
+        protected String[][] doInBackground(String... params) {
             String sortOrder = params[0];
             URL movieRequestUrl = NetworkUtils.buildUrl(sortOrder);
             try {
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
 
-                String[][] jsonMovieData = MovieJsonUtils
+                jsonMovieData = MovieJsonUtils
                         .getMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
 
-                return jsonMovieData[0];
+                return jsonMovieData;
 
             } catch (Exception e){
                 e.printStackTrace();
@@ -100,7 +119,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String[] posterData) {
+        protected void onPostExecute(String[][] movieData) {
+            String[] posterData = movieData[0];
+
             if(posterData != null) {
                 posterUris = new ArrayList<>(posterData.length);
                 for (String posterUri : posterData) {
@@ -108,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
                     posterUris.add(basePosterUri + posterUri);
                 }
                 mMovieAdapter.setPosterData(posterUris);
-                //loadPosters(posterUris);
             }
         }
     }
@@ -135,13 +155,5 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    /*private void loadPosters(ArrayList<String> posterUris) {
-        for (String posterUri : posterUris) {
-            Picasso.with(this)
-                    .load(posterUri)
-                    .into(mMoviePostersImageView);
-        }
-    }*/
 
 }
