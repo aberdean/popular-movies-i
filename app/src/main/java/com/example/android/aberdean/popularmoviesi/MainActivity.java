@@ -25,8 +25,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import com.example.android.aberdean.popularmoviesi.utilities.MovieJsonUtils;
 import com.example.android.aberdean.popularmoviesi.utilities.NetworkUtils;
+
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -42,8 +44,8 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
 
-    private String[][] jsonMovieData;
-    private ArrayList<String> posterUris;
+    private String[][] mJsonMovieData;
+    private ArrayList<String> mPosterUris;
     private String sortBy = "popularity.desc";
 
     @Override
@@ -79,8 +81,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private ArrayList getDetails(int position) {
-        ArrayList<String> chosenMovie = new ArrayList(jsonMovieData.length);
-        for (String[] movies : jsonMovieData) {
+        ArrayList<String> chosenMovie = new ArrayList(mJsonMovieData.length);
+        for (String[] movies : mJsonMovieData) {
             chosenMovie.add(movies[position]);
         }
         return chosenMovie;
@@ -96,10 +98,10 @@ public class MainActivity extends AppCompatActivity
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
 
-                jsonMovieData = MovieJsonUtils
+                mJsonMovieData = MovieJsonUtils
                         .getMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
 
-                return jsonMovieData;
+                return mJsonMovieData;
 
             } catch (Exception e){
                 e.printStackTrace();
@@ -112,12 +114,12 @@ public class MainActivity extends AppCompatActivity
             String[] posterData = movieData[0];
 
             if(posterData != null) {
-                posterUris = new ArrayList<>(posterData.length);
+                mPosterUris = new ArrayList<>(posterData.length);
                 for (String posterUri : posterData) {
                     final String basePosterUri = "https://image.tmdb.org/t/p/w500";
-                    posterUris.add(basePosterUri + posterUri);
+                    mPosterUris.add(basePosterUri + posterUri);
                 }
-                mMovieAdapter.setPosterData(posterUris);
+                mMovieAdapter.setPosterData(mPosterUris);
             }
         }
     }
