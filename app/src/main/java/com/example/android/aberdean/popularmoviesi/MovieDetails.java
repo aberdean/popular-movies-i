@@ -17,8 +17,14 @@ package com.example.android.aberdean.popularmoviesi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -88,5 +94,33 @@ public class MovieDetails extends AppCompatActivity {
         Picasso.with(this)
                 .load(backdrop)
                 .into(mBackdrop);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.color_scheme, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        FrameLayout background = (FrameLayout) findViewById(R.id.background_color);
+        switch (item.getItemId()) {
+            case R.id.dark_scheme:
+                background.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackground));
+                mReleaseDate.setTextColor(ContextCompat.getColor(this, R.color.colorText));
+                mRating.setTextColor(ContextCompat.getColor(this, R.color.colorText));
+                mSynopsis.setTextColor(ContextCompat.getColor(this, R.color.colorText));
+                return true;
+            case R.id.light_scheme:
+                background.setBackgroundColor(ContextCompat.getColor(this, R.color.colorText));
+                mReleaseDate.setTextColor(ContextCompat.getColor(this, R.color.colorBackground));
+                mRating.setTextColor(ContextCompat.getColor(this, R.color.colorBackground));
+                mSynopsis.setTextColor(ContextCompat.getColor(this, R.color.colorBackground));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
