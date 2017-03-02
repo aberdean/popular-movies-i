@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.android.aberdean.popularmoviesi;
 
 import android.content.Context;
@@ -27,29 +28,34 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-
-public class MovieAdapter
+/**
+ * Renders the poster images of the movies retrieved from IMDb
+ * and passes them to the RecyclerView.
+ * When a user clicks on a movie poster, sets up a click handler that
+ * passes the position of the movie in the ArrayList to the MainActivity.
+ */
+class MovieAdapter
         extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
 
     private ArrayList mPosterData;
-    private Context mContext;
 
     private final MovieAdapterOnClickHandler mClickHandler;
 
-    public interface MovieAdapterOnClickHandler {
+    interface MovieAdapterOnClickHandler {
         void onClick(int adapterPosition);
     }
 
-    public MovieAdapter(MovieAdapterOnClickHandler clickHandler) {
+    MovieAdapter(MovieAdapterOnClickHandler clickHandler) {
+
         mClickHandler = clickHandler;
     }
 
-    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder
+    class MovieAdapterViewHolder extends RecyclerView.ViewHolder
             implements OnClickListener {
 
-        public final ImageView mPosterImageView;
+        final ImageView mPosterImageView;
 
-        public MovieAdapterViewHolder (View view) {
+        MovieAdapterViewHolder (View view) {
             super(view);
             mPosterImageView = (ImageView) view.findViewById(R.id.iv_movie_poster);
             view.setOnClickListener(this);
@@ -68,16 +74,16 @@ public class MovieAdapter
         Context context = viewGroup.getContext();
         int layoutIdForPosters = R.layout.poster_item_list;
         LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
 
-        View view = inflater.inflate(layoutIdForPosters, viewGroup, shouldAttachToParentImmediately);
+        View view = inflater.inflate(layoutIdForPosters, viewGroup,
+                false);
         return new MovieAdapterViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder holder, int position) {
         String posterUrl = mPosterData.get(position).toString();
-        this.mContext = holder.mPosterImageView.getContext();
+        Context mContext = holder.mPosterImageView.getContext();
         Picasso.with(mContext)
                 .load(posterUrl)
                 .into(holder.mPosterImageView);
@@ -89,7 +95,7 @@ public class MovieAdapter
         return mPosterData.size();
     }
 
-    public void setPosterData (ArrayList posterData) {
+    void setPosterData (ArrayList posterData) {
         mPosterData = posterData;
         notifyDataSetChanged();
     }

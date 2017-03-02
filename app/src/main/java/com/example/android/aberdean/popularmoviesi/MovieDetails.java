@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.android.aberdean.popularmoviesi;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -24,25 +26,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+/**
+ * Presents the user with a detailed view of the chosen movie,
+ * including a backdrop picture, a thumbnail poster, the original title,
+ * release date and rating, and a synopsis.
+ * Allows the user to choose between a dark and light theme.
+ */
 public class MovieDetails extends AppCompatActivity {
-
-    private ArrayList mChosenMovie;
 
     private ImageView mBackdrop;
     private ImageView mPosterThumb;
 
     private TextView mSynopsis;
     private TextView mReleaseDate;
-    private TextView mOriginalTitle;
     private TextView mRating;
 
+    /**
+     * Assigns the appropriate values for the chosen movie.
+     * @param savedInstanceState the previously saved state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +61,17 @@ public class MovieDetails extends AppCompatActivity {
 
         mSynopsis = (TextView) findViewById(R.id.tv_synopsis);
         mReleaseDate = (TextView) findViewById(R.id.tv_release_date);
-        mOriginalTitle = (TextView) findViewById(R.id.tv_title);
+        TextView mOriginalTitle = (TextView) findViewById(R.id.tv_title);
         mRating = (TextView) findViewById(R.id.tv_rating);
 
         Intent intentThatStartedThisActivity = getIntent();
 
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra("movieDetails")) {
-                mChosenMovie = (ArrayList<String>)
+
+                Resources res = getResources();
+
+                ArrayList mChosenMovie = (ArrayList<?>)
                         intentThatStartedThisActivity.getSerializableExtra("movieDetails");
 
                 String posterUri = mChosenMovie.get(0).toString();
@@ -71,19 +82,27 @@ public class MovieDetails extends AppCompatActivity {
                 mSynopsis.setText(synopsis);
 
                 String releaseDate = mChosenMovie.get(3).toString();
-                mReleaseDate.setText("Released: " + releaseDate);
+                String release = String.format(res.getString(R.string.released), releaseDate);
+                mReleaseDate.setText(release);
 
                 String title = mChosenMovie.get(4).toString();
                 mOriginalTitle.setText(title);
 
                 String rating = mChosenMovie.get(5).toString();
-                mRating.setText("Rating: " + rating);
+                String rate = String.format(res.getString(R.string.rating), rating);
+                mRating.setText(rate);
 
             }
         }
 
     }
 
+    /**
+     * Builds the url for the appropriate movie's poster and backdrop,
+     * and loads them into their views.
+     * @param posterUri the uri to fetch the movie's poster
+     * @param backdropUri the uri to fetch the movie's backdrop
+     */
     private void setImage(String posterUri, String backdropUri) {
         String baseUri = "https://image.tmdb.org/t/p/w500";
         String posterThumb = baseUri + posterUri;
@@ -103,6 +122,11 @@ public class MovieDetails extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Allows the user to toggle between a light and a dark theme.
+     * @param item the selected menu item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         FrameLayout background = (FrameLayout) findViewById(R.id.background_color);

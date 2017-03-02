@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.android.aberdean.popularmoviesi.utilities;
 
 import android.content.Context;
@@ -57,7 +58,7 @@ public final class MovieJsonUtils {
         /* HTTP status codes */
         final String MJ_STATUS_CODE = "status_code";
 
-        /* String arrays holding each movie's data */
+        /* String arrays holding each type of data for all the movies */
         String[] parsedPosterUri;
         String[] parsedBackdropUri;
         String[] parsedDescription;

@@ -17,6 +17,9 @@
     <string name="app_name">PopularMovies</string>
     <string name="top_rated">Top Rated</string>
     <string name="most_popular">Most Popular</string>
+    <string name="released">Released: %1$s</string>
+    <string name="rating">Rating: %1$s</string>
+    <string name="attrib">Powered by TMDb</string>
     <string name="dark">Dark Theme</string>
     <string name="light">Light Theme</string>
 </resources>

@@ -25,6 +25,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.android.aberdean.popularmoviesi.utilities.MovieJsonUtils;
 import com.example.android.aberdean.popularmoviesi.utilities.NetworkUtils;
@@ -32,20 +33,21 @@ import com.example.android.aberdean.popularmoviesi.utilities.NetworkUtils;
 import java.net.URL;
 import java.util.ArrayList;
 
-
-/*TODO: Add credits page with TMDb attribution
- * https://www.themoviedb.org/about/logos-attribution) **/
-
+/**
+ * Shows a list of popular movies' posters organized in a grid view.
+ * Allows the user to select sorting by popularity or by rating.
+ * Start activity MovieDetails when the user clicks on one
+ * of the movies' poster.
+ */
 public class MainActivity extends AppCompatActivity
         implements MovieAdapter.MovieAdapterOnClickHandler {
 
+    @SuppressWarnings("unused")
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
 
     private String[][] mJsonMovieData;
-    private ArrayList<String> mPosterUris;
     private String sortBy = "popularity.desc";
 
     @Override
@@ -53,7 +55,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_posters);
+        RecyclerView mRecyclerView = (RecyclerView)
+                findViewById(R.id.recyclerview_posters);
 
         GridLayoutManager layoutManager =
                 new GridLayoutManager(this, 2);
@@ -63,6 +66,9 @@ public class MainActivity extends AppCompatActivity
 
         mMovieAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mMovieAdapter);
+
+        Toast.makeText(getApplicationContext(),
+                getString(R.string.attrib), Toast.LENGTH_SHORT).show();
 
         fetchPosters();
 
@@ -81,7 +87,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private ArrayList getDetails(int position) {
-        ArrayList<String> chosenMovie = new ArrayList(mJsonMovieData.length);
+        ArrayList<String> chosenMovie = new ArrayList<>(mJsonMovieData.length);
         for (String[] movies : mJsonMovieData) {
             chosenMovie.add(movies[position]);
         }
@@ -114,7 +120,7 @@ public class MainActivity extends AppCompatActivity
             String[] posterData = movieData[0];
 
             if(posterData != null) {
-                mPosterUris = new ArrayList<>(posterData.length);
+                ArrayList<String> mPosterUris = new ArrayList<>(posterData.length);
                 for (String posterUri : posterData) {
                     final String basePosterUri = "https://image.tmdb.org/t/p/w500";
                     mPosterUris.add(basePosterUri + posterUri);
