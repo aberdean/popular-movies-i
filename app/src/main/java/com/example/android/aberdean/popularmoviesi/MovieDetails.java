@@ -72,7 +72,8 @@ public class MovieDetails extends AppCompatActivity {
                 Resources res = getResources();
 
                 ArrayList mChosenMovie = (ArrayList<?>)
-                        intentThatStartedThisActivity.getSerializableExtra("movieDetails");
+                        intentThatStartedThisActivity
+                                .getSerializableExtra("movieDetails");
 
                 String posterUri = mChosenMovie.get(0).toString();
                 String backdropUri = mChosenMovie.get(1).toString();
@@ -82,14 +83,16 @@ public class MovieDetails extends AppCompatActivity {
                 mSynopsis.setText(synopsis);
 
                 String releaseDate = mChosenMovie.get(3).toString();
-                String release = String.format(res.getString(R.string.released), releaseDate);
+                String release = String.format(
+                        res.getString(R.string.released), releaseDate);
                 mReleaseDate.setText(release);
 
                 String title = mChosenMovie.get(4).toString();
                 mOriginalTitle.setText(title);
 
                 String rating = mChosenMovie.get(5).toString();
-                String rate = String.format(res.getString(R.string.rating), rating);
+                String rate = String.format(
+                        res.getString(R.string.rating), rating);
                 mRating.setText(rate);
 
             }
@@ -125,23 +128,32 @@ public class MovieDetails extends AppCompatActivity {
     /**
      * Allows the user to toggle between a light and a dark theme.
      * @param item the selected menu item
-     * @return
+     * @return true or inherit from parent
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        FrameLayout background = (FrameLayout) findViewById(R.id.background_color);
+        FrameLayout background =
+                (FrameLayout) findViewById(R.id.background_color);
         switch (item.getItemId()) {
             case R.id.dark_scheme:
-                background.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackground));
-                mReleaseDate.setTextColor(ContextCompat.getColor(this, R.color.colorText));
-                mRating.setTextColor(ContextCompat.getColor(this, R.color.colorText));
-                mSynopsis.setTextColor(ContextCompat.getColor(this, R.color.colorText));
+                background.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.colorBackground));
+                mReleaseDate.setTextColor(ContextCompat.getColor(this,
+                        R.color.colorText));
+                mRating.setTextColor(ContextCompat.getColor(this,
+                        R.color.colorText));
+                mSynopsis.setTextColor(ContextCompat.getColor(this,
+                        R.color.colorText));
                 return true;
             case R.id.light_scheme:
-                background.setBackgroundColor(ContextCompat.getColor(this, R.color.colorText));
-                mReleaseDate.setTextColor(ContextCompat.getColor(this, R.color.colorBackground));
-                mRating.setTextColor(ContextCompat.getColor(this, R.color.colorBackground));
-                mSynopsis.setTextColor(ContextCompat.getColor(this, R.color.colorBackground));
+                background.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.colorText));
+                mReleaseDate.setTextColor(ContextCompat.getColor(this,
+                        R.color.colorBackground));
+                mRating.setTextColor(ContextCompat.getColor(this,
+                        R.color.colorBackground));
+                mSynopsis.setTextColor(ContextCompat.getColor(this,
+                        R.color.colorBackground));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

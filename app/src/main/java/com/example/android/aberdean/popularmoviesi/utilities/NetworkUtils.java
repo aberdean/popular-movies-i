@@ -37,12 +37,14 @@ public final class NetworkUtils {
 
     private static final String BASE_URL = "https://api.themoviedb.org/3/discover/movie";
 
+    // The API key must be set in a variable called ApiKey
+    // within the gradle.properties file
     private static final String API_KEY = BuildConfig.MOVIE_API_KEY;
     private static final String LANGUAGE = "en-US";
 
     private static final String API_KEY_PARAM = "api_key";
     private static final String LANGUAGE_PARAM = "language";
-    /** sort_by allows params vote_average.desc and popularity.desc**/
+    // sort_by allows params vote_average.desc and popularity.desc
     private static final String SORTING_PARAM = "sort_by";
 
     /**
@@ -77,7 +79,8 @@ public final class NetworkUtils {
      * @throws IOException Related to network and stream reading
      */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        HttpURLConnection urlConnection =
+                (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();
 

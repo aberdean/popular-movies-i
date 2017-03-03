@@ -33,16 +33,20 @@ public final class MovieJsonUtils {
      * Parse JSON from a TMDb response and return an array of Strings
      * describing a movie.
      *
+     * @param context the context from which this method is called
      * @param movieJsonString JSON response from server
      *
      * @return Array of Strings describing a movie
      *
      * @throws JSONException If JSON data cannot be parsed
      */
-    public static String[][] getMovieStringsFromJson(Context context, String movieJsonString)
-            throws JSONException {
+    public static String[][] getMovieStringsFromJson(
+            Context context, String movieJsonString) throws JSONException {
 
-        /* Movie information. All info for a movie are children of the "results" array */
+        /*
+         * Movie information.
+         * All info for a movie are children of the "results" array.
+         */
         final String MJ_RESULTS = "results";
 
         /* Path to the poster image for the movie */
@@ -119,8 +123,10 @@ public final class MovieJsonUtils {
 
         }
 
+        // variable parsedMovieData is needed to format the data
         String[][] parsedMovieData = {parsedPosterUri, parsedBackdropUri,
-                parsedDescription, parsedReleaseDate, parsedTitle, parsedRating};
+                parsedDescription, parsedReleaseDate,
+                parsedTitle, parsedRating};
 
         return parsedMovieData;
     }

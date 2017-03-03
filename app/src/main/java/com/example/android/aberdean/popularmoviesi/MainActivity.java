@@ -42,6 +42,10 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements MovieAdapter.MovieAdapterOnClickHandler {
 
+    /**
+     * Suppressing "unused" warnings, because TAG is not used at the moment,
+     * but it's still useful to leave it here
+     */
     @SuppressWarnings("unused")
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -78,6 +82,10 @@ public class MainActivity extends AppCompatActivity
         new MovieQueryTask().execute(sortBy);
     }
 
+    /**
+     * When a movie poster is clicked, starts the MovieDetails activity
+     * @param moviePosition the position of the movie in the ArrayList
+     */
     public void onClick(int moviePosition) {
         Class destinationClass = MovieDetails.class;
         Intent intentToStartMovieDetails = new Intent(this, destinationClass);
@@ -87,7 +95,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private ArrayList getDetails(int position) {
-        ArrayList<String> chosenMovie = new ArrayList<>(mJsonMovieData.length);
+        ArrayList<String> chosenMovie =
+                new ArrayList<>(mJsonMovieData.length);
+
         for (String[] movies : mJsonMovieData) {
             chosenMovie.add(movies[position]);
         }
@@ -105,11 +115,12 @@ public class MainActivity extends AppCompatActivity
                         .getResponseFromHttpUrl(movieRequestUrl);
 
                 mJsonMovieData = MovieJsonUtils
-                        .getMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
+                        .getMovieStringsFromJson(MainActivity.this,
+                                jsonMovieResponse);
 
                 return mJsonMovieData;
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
@@ -119,10 +130,12 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(String[][] movieData) {
             String[] posterData = movieData[0];
 
-            if(posterData != null) {
-                ArrayList<String> mPosterUris = new ArrayList<>(posterData.length);
+            if (posterData != null) {
+                ArrayList<String> mPosterUris =
+                        new ArrayList<>(posterData.length);
                 for (String posterUri : posterData) {
-                    final String basePosterUri = "https://image.tmdb.org/t/p/w500";
+                    String basePosterUri =
+                            "https://image.tmdb.org/t/p/w500";
                     mPosterUris.add(basePosterUri + posterUri);
                 }
                 mMovieAdapter.setPosterData(mPosterUris);

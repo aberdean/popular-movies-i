@@ -53,11 +53,12 @@ class MovieAdapter
     class MovieAdapterViewHolder extends RecyclerView.ViewHolder
             implements OnClickListener {
 
-        final ImageView mPosterImageView;
+        private final ImageView mPosterImageView;
 
-        MovieAdapterViewHolder (View view) {
+        MovieAdapterViewHolder(View view) {
             super(view);
-            mPosterImageView = (ImageView) view.findViewById(R.id.iv_movie_poster);
+            mPosterImageView = (ImageView)
+                    view.findViewById(R.id.iv_movie_poster);
             view.setOnClickListener(this);
         }
 
@@ -70,7 +71,9 @@ class MovieAdapter
     }
 
     @Override
-    public MovieAdapterViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public MovieAdapterViewHolder onCreateViewHolder(
+            ViewGroup viewGroup, int viewType) {
+
         Context context = viewGroup.getContext();
         int layoutIdForPosters = R.layout.poster_item_list;
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -82,7 +85,7 @@ class MovieAdapter
 
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder holder, int position) {
-        String posterUrl = mPosterData.get(position).toString();
+        final String posterUrl = mPosterData.get(position).toString();
         Context mContext = holder.mPosterImageView.getContext();
         Picasso.with(mContext)
                 .load(posterUrl)
@@ -91,11 +94,13 @@ class MovieAdapter
 
     @Override
     public int getItemCount() {
-        if (mPosterData == null) return 0;
+        if (mPosterData == null) {
+            return 0;
+        }
         return mPosterData.size();
     }
 
-    void setPosterData (ArrayList posterData) {
+    void setPosterData(ArrayList posterData) {
         mPosterData = posterData;
         notifyDataSetChanged();
     }
