@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Suppressing "unused" warnings, because TAG is not used at the moment,
-     * but it's still useful to leave it here
+     * but it's still useful to leave it here.
      */
     @SuppressWarnings("unused")
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * When a movie poster is clicked, starts the MovieDetails activity
+     * When a movie poster is clicked, starts the MovieDetails activity.
      * @param moviePosition the position of the movie in the ArrayList
      */
     public void onClick(int moviePosition) {
@@ -104,7 +104,8 @@ public class MainActivity extends AppCompatActivity
         return chosenMovie;
     }
 
-    public class MovieQueryTask extends AsyncTask<String, String[], String[][]> {
+    public class MovieQueryTask extends
+            AsyncTask<String, String[], String[][]> {
 
         @Override
         protected String[][] doInBackground(String... params) {

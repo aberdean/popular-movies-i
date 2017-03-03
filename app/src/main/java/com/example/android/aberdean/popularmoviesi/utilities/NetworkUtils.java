@@ -35,7 +35,8 @@ public final class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String BASE_URL = "https://api.themoviedb.org/3/discover/movie";
+    private static final String BASE_URL =
+            "https://api.themoviedb.org/3/discover/movie";
 
     // The API key must be set in a variable called ApiKey
     // within the gradle.properties file
