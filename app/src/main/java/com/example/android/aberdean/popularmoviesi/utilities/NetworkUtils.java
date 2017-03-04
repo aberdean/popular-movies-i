@@ -36,7 +36,7 @@ public final class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     private static final String BASE_URL =
-            "https://api.themoviedb.org/3/discover/movie";
+            "https://api.themoviedb.org/3/movie/";
 
     // The API key must be set in a variable called ApiKey
     // within the gradle.properties file
@@ -45,8 +45,6 @@ public final class NetworkUtils {
 
     private static final String API_KEY_PARAM = "api_key";
     private static final String LANGUAGE_PARAM = "language";
-    // sort_by allows params vote_average.desc and popularity.desc
-    private static final String SORTING_PARAM = "sort_by";
 
     /**
      * Builds the URL used to connect to TMDb.
@@ -55,10 +53,9 @@ public final class NetworkUtils {
      * @return The URL to use to query the movie database
      */
     public static URL buildUrl(String sortOrder) {
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+        Uri builtUri = Uri.parse(BASE_URL + sortOrder).buildUpon()
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .appendQueryParameter(LANGUAGE_PARAM, LANGUAGE)
-                .appendQueryParameter(SORTING_PARAM, sortOrder)
                 .build();
 
         URL url = null;

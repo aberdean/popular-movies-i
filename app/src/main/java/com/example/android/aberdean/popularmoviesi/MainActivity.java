@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
     private MovieAdapter mMovieAdapter;
 
     private String[][] mJsonMovieData;
-    private String sortBy = "popularity.desc";
+    private String sortBy = "popular";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,11 +154,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sort_by_top_rated:
-                sortBy = "vote_average.desc";
+                sortBy = "top_rated";
                 fetchPosters();
                 return true;
             case R.id.sort_by_most_popular:
-                sortBy = "popularity.desc";
+                sortBy = "popular";
                 fetchPosters();
                 return true;
             default:
