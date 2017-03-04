@@ -64,16 +64,14 @@ public class MovieDetails extends AppCompatActivity {
         TextView mOriginalTitle = (TextView) findViewById(R.id.tv_title);
         mRating = (TextView) findViewById(R.id.tv_rating);
 
-        Intent intentThatStartedThisActivity = getIntent();
+        Intent intent = getIntent();
 
-        if (intentThatStartedThisActivity != null) {
-            if (intentThatStartedThisActivity.hasExtra("movieDetails")) {
+        if (intent != null && intent.hasExtra("movieDetails")) {
 
                 Resources res = getResources();
 
                 ArrayList mChosenMovie = (ArrayList<?>)
-                        intentThatStartedThisActivity
-                                .getSerializableExtra("movieDetails");
+                        intent.getSerializableExtra("movieDetails");
 
                 String posterUri = mChosenMovie.get(0).toString();
                 String backdropUri = mChosenMovie.get(1).toString();
@@ -94,11 +92,9 @@ public class MovieDetails extends AppCompatActivity {
                 String rate = String.format(
                         res.getString(R.string.rating), rating);
                 mRating.setText(rate);
-
-            }
         }
-
     }
+
 
     /**
      * Builds the url for the appropriate movie's poster and backdrop,
