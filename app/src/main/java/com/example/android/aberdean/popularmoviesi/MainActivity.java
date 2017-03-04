@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity
                 findViewById(R.id.recyclerview_posters);
 
         GridLayoutManager layoutManager =
-                new GridLayoutManager(this, 2);
+                new GridLayoutManager(this, getResources()
+                        .getInteger(R.integer.num_of_columns));
 
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
