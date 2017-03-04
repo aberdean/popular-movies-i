@@ -129,9 +129,8 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(String[][] movieData) {
-            String[] posterData = movieData[0];
-
-            if (posterData != null) {
+            if (movieData != null) {
+                String[] posterData = movieData[0];
                 ArrayList<String> mPosterUris =
                         new ArrayList<>(posterData.length);
                 for (String posterUri : posterData) {
